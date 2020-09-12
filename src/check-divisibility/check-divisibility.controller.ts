@@ -20,17 +20,33 @@ export class CheckDivisibilityController implements OnModuleInit {
 
 	@GrpcMethod('CheckDivisibilityService', 'CheckDivisibility')
 	checkDivisibility(data: RequestParams): ResponseObjectSuccess | ResponseObjectError {
+		const allowedTypes = ['decimal', 'binary'];
 		try {
-			const allowedTypes = ['decimal'];
 			const { type, number, divisor } = data;
-			if (!allowedTypes.includes(type)) {
-				throw Error(`Type should be one of: ${allowedTypes}`);
+			let isDivisible: boolean = false;
+			switch (type){
+				case 'decimal':
+					const num = Number(number);
+					if(isNaN(num)) {
+						throw Error(`Number should be a valid decimal number`);
+					}
+					isDivisible = num % divisor === 0;
+					break;
+				case 'binary':
+					let rem = 0;
+					for (let i = number.length -1; i >= 0 ; i--) {
+						if (number[i] === '0') {
+							rem = (rem * 2) % divisor;
+						} else if (number[i] === '1') {
+							rem = ((rem * 2) + 1) % divisor;
+						}
+					}
+					isDivisible = rem % divisor === 0;
+					break;
+				default:
+					throw Error(`Type should be one of: ${allowedTypes}`);
 			}
-			const num = Number(number);
-			if(isNaN(num)) {
-				throw Error(`Number should be a valid ${type} number`);
-			}
-			const isDivisible = num % divisor === 0;
+
 			const response: ResponseObjectSuccess = {
 				success: true,
 				data: {
