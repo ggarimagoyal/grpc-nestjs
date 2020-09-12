@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package checkDivisibility;
+
+
+service CheckDivisibilityService {
+	rpc CheckDivisibility(RequestParams) returns (ResponseObject) {}
+}
+
+message RequestParams {
+	string type = 1;
+	string number = 2;
+	int32 divisor = 3;
+}
+
+message ErrorObject {
+	string message = 1;
+	string reason = 2;
+}
+
+message DataObject {
+	bool isDivisible = 1;
+}
+
+message ResponseObject {
+	bool success = 1;
+	ErrorObject error = 2;
+	DataObject data = 3;
+}
