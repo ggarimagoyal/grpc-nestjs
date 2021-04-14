@@ -1,5 +1,5 @@
 ## Description
-This is a nestjs project with a simple implementation of grpc
+This is a nestjs server with a simple implementation of grpc
 
 ## Running the project
 > npm run build

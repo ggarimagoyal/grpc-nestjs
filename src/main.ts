@@ -9,7 +9,8 @@ async function bootstrap() {
     options: {
       package: 'checkDivisibility',
       protoPath: join(__dirname, '../proto/check-divisibility.proto'),
-    },
+      url: 'localhost:5000'
+    }
   });
   await app.listenAsync();
 }

@@ -5,6 +5,12 @@ package checkDivisibility;
 
 service CheckDivisibilityService {
 	rpc CheckDivisibility(RequestParams) returns (ResponseObject) {}
+	rpc CheckBinaryStream(stream BinaryStream) returns (stream ResponseObject) {}
+}
+
+message BinaryStream {
+	bool n = 1;
+	int32 divisor = 2;
 }
 
 message RequestParams {
